@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vibetorch Inspector Test</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 40px;
+    }
+    
+    .card {
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 20px;
+      background: white;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .card h3 {
+      margin: 0 0 12px 0;
+      color: #1f2937;
+    }
+    
+    .card p {
+      color: #6b7280;
+      line-height: 1.6;
+    }
+    
+    button {
+      background: #3b82f6;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    
+    button:hover {
+      background: #2563eb;
+    }
+    
+    .status {
+      margin-top: 20px;
+      padding: 12px;
+      background: #f3f4f6;
+      border-radius: 6px;
+      font-family: monospace;
+      font-size: 12px;
+    }
+    
+    header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🎯 Vibetorch Inspector Test Page</h1>
+    <p>Press <kbd>Cmd+Shift+C</kbd> (Mac) or <kbd>Ctrl+Shift+C</kbd> (Windows) to activate the inspector</p>
+  </header>
+  
+  <div class="container">
+    <div class="card" data-testid="feature-card-1">
+      <h3>Visual Element Selection</h3>
+      <p>Click on any element to select it and see detailed information including React component data.</p>
+      <button onclick="alert('Button clicked!')">Test Button</button>
+    </div>
+    
+    <div class="card" data-testid="feature-card-2">
+      <h3>Component Detection</h3>
+      <p>The inspector automatically detects React components and extracts their names, props, and source locations.</p>
+      <button onclick="toggleInspector()">Toggle Inspector</button>
+    </div>
+    
+    <div class="card" data-testid="feature-card-3">
+      <h3>PostMessage Bridge</h3>
+      <p>Built-in communication bridge for iframe scenarios. Perfect for embedded preview panels.</p>
+    </div>
+    
+    <div class="card" data-testid="feature-card-4">
+      <h3>Keyboard Shortcuts</h3>
+      <p>Use keyboard shortcuts for quick access. Customizable shortcuts available through configuration.</p>
+    </div>
+  </div>
+  
+  <div class="status" id="status">
+    Inspector Status: Loading...
+  </div>
+  
+  <script type="module">
+    // Import the built inspector
+    import { VibetorchInspector } from '../dist/index.mjs';
+    
+    // Initialize inspector
+    const inspector = new VibetorchInspector({
+      enabled: true,
+      enableShortcuts: true,
+      onElementSelected: (info) => {
+        console.log('Element selected:', info);
+        document.getElementById('status').innerHTML = `
+          <strong>Selected Element:</strong><br>
+          Tag: ${info.tagName}<br>
+          ${info.id ? `ID: ${info.id}<br>` : ''}
+          ${info.className ? `Class: ${info.className}<br>` : ''}
+          ${info.semantic?.testId ? `Test ID: ${info.semantic.testId}<br>` : ''}
+          ${info.semantic?.actionText ? `Action: ${info.semantic.actionText}<br>` : ''}
+          Text: ${info.text.substring(0, 50)}${info.text.length > 50 ? '...' : ''}
+        `;
+      }
+    });
+    
+    // Make toggle function available globally
+    window.toggleInspector = () => {
+      inspector.toggle();
+      const isActive = inspector.isInspecting();
+      document.getElementById('status').textContent = `Inspector Status: ${isActive ? 'Active' : 'Inactive'}`;
+    };
+    
+    // Update initial status
+    document.getElementById('status').textContent = 'Inspector Status: Ready (Press Cmd+Shift+C to activate)';
+    
+    // Test message bridge if in iframe
+    if (window.parent !== window) {
+      window.parent.postMessage({
+        type: 'vibetorch:ready',
+        data: { message: 'Inspector initialized in iframe' }
+      }, '*');
+    }
+  </script>
+</body>
+</html>

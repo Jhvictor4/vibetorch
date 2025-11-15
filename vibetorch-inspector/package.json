@@ -1,0 +1,72 @@
+{
+  "name": "@vibetorch/inspector",
+  "version": "1.4.4",
+  "description": "Visual element inspector for development environments",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "development": {
+        "types": "./dist/index.d.ts",
+        "import": "./dist/index.mjs",
+        "require": "./dist/index.js"
+      },
+      "production": {
+        "types": "./dist/index.prod.d.ts",
+        "import": "./dist/index.prod.mjs",
+        "require": "./dist/index.prod.js"
+      },
+      "default": {
+        "types": "./dist/index.d.ts",
+        "import": "./dist/index.mjs",
+        "require": "./dist/index.js"
+      }
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "build:rollup": "rollup -c",
+    "dev": "rollup -c -w",
+    "dev:tsup": "tsup --watch",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "inspector",
+    "devtools",
+    "react",
+    "development"
+  ],
+  "author": "Vibetorch",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
+  "dependencies": {
+    "@babel/core": "^7.23.0",
+    "@babel/parser": "^7.23.0",
+    "@babel/traverse": "^7.23.0",
+    "@babel/types": "^7.23.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-image": "^3.0.3",
+    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-replace": "^5.0.0",
+    "@rollup/plugin-terser": "^0.4.0",
+    "@rollup/plugin-typescript": "^11.1.0",
+    "@types/babel__core": "^7.20.0",
+    "@types/babel__traverse": "^7.20.0",
+    "@types/node": "^24.5.1",
+    "@types/react": "^18.0.0",
+    "rollup": "^4.0.0",
+    "tslib": "^2.6.0",
+    "tsup": "^8.5.0",
+    "typescript": "^5.0.0",
+    "vite": "^7.1.5"
+  }
+}
