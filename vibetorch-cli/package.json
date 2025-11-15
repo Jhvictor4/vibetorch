@@ -1,0 +1,51 @@
+{
+  "name": "vibetorch",
+  "version": "0.1.2",
+  "description": "CLI tool for VibeTorch Inspector - auto-inject inspector into React/Next.js apps",
+  "type": "module",
+  "bin": {
+    "vibetorch": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "vibetorch",
+    "inspector",
+    "react",
+    "nextjs",
+    "vite",
+    "devtools",
+    "cli",
+    "element-inspector"
+  ],
+  "author": "VibeTorch",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vibetorch/vibetorch-cli"
+  },
+  "bugs": {
+    "url": "https://github.com/vibetorch/vibetorch-cli/issues"
+  },
+  "homepage": "https://github.com/vibetorch/vibetorch-cli#readme",
+  "dependencies": {
+    "commander": "^12.0.0",
+    "chalk": "^5.3.0",
+    "ora": "^8.0.1",
+    "http-proxy-middleware": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
